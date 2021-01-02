@@ -22,11 +22,12 @@ val_index = int(dataset['Features'].shape[0] * 0.75)
 
 # define a network
 model = models.Sequential()
-model.add(layers.Dense(32, input_shape=(dataset['Features'].shape[1],), activation='relu'))
-model.add(layers.Dropout(0.5))
-model.add(layers.Dense(64, activation='relu'))
-model.add(layers.Dropout(0.25))
+model.add(layers.Dense(63, input_shape=(dataset['Features'].shape[1],), activation='relu'))
+# model.add(layers.Dropout(0.5))
+model.add(layers.Dense(32, activation='relu'))
+# model.add(layers.Dropout(0.25))
 model.add(layers.Dense(1, activation='sigmoid'))
+model.summary()
 
 # compile a model
 learning_rate = 0.001
@@ -42,7 +43,8 @@ history = model.fit(
     epochs=100,
     batch_size=32,
     validation_data=(
-        dataset['Features'][index + train_index:val_index], dataset['Labels'][index + train_index:val_index])
+        dataset['Features'][index + train_index:val_index],
+        dataset['Labels'][index + train_index:val_index])
 )
 print('[INFO] train complete.')
 
