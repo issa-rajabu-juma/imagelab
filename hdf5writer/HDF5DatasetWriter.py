@@ -5,7 +5,7 @@ import os
 
 class HDF5DatasetWriter:
     # constructor
-    def __init__(self, dimensions, outputFile, bufSize=100, dataKey='Features'):
+    def __init__(self, dimensions, outputFile, bufSize=1000, dataKey='Features'):
         # check to see if the outputFile already exists, and if so raise an exception
         if os.path.exists(outputFile):
             raise ValueError('The supplied output file already exists and can not be overwritten.'
@@ -14,7 +14,7 @@ class HDF5DatasetWriter:
         # open hdf5 database and create two datasets
         self.h5_database = h5.File(outputFile, 'w')
         self.data = self.h5_database.create_dataset(dataKey, dimensions, dtype='float')
-        self.labels = self.h5_database.create_dataset('Labels', (dimensions[0],), stype='int')
+        self.labels = self.h5_database.create_dataset('Labels', (dimensions[0],), dtype='int')
 
         # initialize buffer and its size
         self.bufSize = bufSize
@@ -54,3 +54,4 @@ class HDF5DatasetWriter:
 
         # close the dataset
         self.h5_database.close()
+
