@@ -35,24 +35,32 @@ class Preprocessing:
     # resize image
     def resize(self, image):
         # get height and width of an image and then initialize deltas
-        (h, w) = image[:2]
-        dh = 0
-        dw = 0
-
-        # resize along longest side
-        if w < h:
-            image = imutils.resize(image, width=self.width, inter=self.inter)
-            dh = int((image.shape[0] + self.height) / 2.0)
-        else:
-            image = imutils.resize(image, height=self.height, inter=self.inter)
-            dw = int((image.shape[1] + self.width) / 2.0)
-
-        # crop the image
-        (h, w) = image[:2]
-        image = image[dh:h - dh, dw:w - dw]
+        #
+        # h = image.shape[0]
+        # w = image.shape[1]
+        # dh = 0
+        # dw = 0
+        #
+        # # resize along longest side
+        # if w < h:
+        #     image = imutils.resize(image, width=self.width, inter=self.inter)
+        #     dh = int((image.shape[0] + self.height) / 2.0)
+        # else:
+        #     image = imutils.resize(image, height=self.height, inter=self.inter)
+        #     dw = int((image.shape[1] + self.width) / 2.0)
+        #
+        # # crop the image
+        # h = image.shape[0]
+        # w = image.shape[1]
+        # image = image[dh:h - dh, dw:w - dw]
 
         # return an image while maintaining spatial dimension
-        return cv2.resize(image, (self.width, self.height), interpolation=self.inter)
+        try:
+            image = cv2.resize(image, (self.width, self.height), interpolation=self.inter)
+        except Exception as e:
+            print(str(e))
+
+        return image
 
     #  convert image to array
     def img2array(self, image):
