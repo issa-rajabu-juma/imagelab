@@ -1,5 +1,5 @@
-from hdf5writer.HDF5DatasetWriter import HDF5DatasetWriter
-from preprocessing.Preprocessing import load_path_and_labels
+from hdf5_datasets.dataset import HDF5DatasetWriter
+from preprocessing.preprocessor import load_path_and_labels
 from keras.applications import VGG16
 from sklearn.preprocessing import LabelEncoder
 from keras.preprocessing.image import load_img

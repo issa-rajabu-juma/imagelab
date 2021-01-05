@@ -4,10 +4,10 @@ import progressbar
 import numpy as np
 from config import cat_dog_config as config
 from sklearn.preprocessing import LabelEncoder
-from preprocessing.Preprocessing import Preprocessing
+from preprocessing.preprocessor import AspectRatioAwarePreprocessor
 from sklearn.model_selection import train_test_split
-from hdf5writer.HDF5DatasetWriter import HDF5DatasetWriter
-from preprocessing.Preprocessing import load_path_and_labels
+from hdf5_datasets.dataset import HDF5DatasetWriter
+from loader.input_loader import load_path_and_labels
 
 # Load images path and labels
 (images_path, labels) = load_path_and_labels(config.IMAGES_PATH)
@@ -42,7 +42,7 @@ datasets = [
 ]
 
 # initialize the preprocessor and the lists of RGB channel average
-preprocessor = Preprocessing(256, 256)
+preprocessor = AspectRatioAwarePreprocessor(256, 256)
 (R, G, B) = ([], [], [])
 
 
@@ -60,7 +60,7 @@ for(dType, paths, labels, outputPath) in datasets:
     for (i, (path, label)) in enumerate(zip(paths, labels)):
 
         image = cv2.imread(path)
-        image = preprocessor.resize(image)
+        image = preprocessor.preprocess(image)
 
         # if we are building the training dataset, then compute the mean of each
         # channel in the image, then update the respective lists
@@ -74,9 +74,9 @@ for(dType, paths, labels, outputPath) in datasets:
         writer.add([image], [label])
         progress.update(i)
 
-# close the hdf5 writer
-progress.finish()
-writer.close()
+    # close the hdf5 writer
+    progress.finish()
+    writer.close()
 
 # construct a dictionary of averages, then serialize the means to a JSON file
 print('[INFO] serialize means...')
