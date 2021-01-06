@@ -10,7 +10,7 @@ import os
 # Specify working directories
 base_dir = 'C:/Users/Tajr/Desktop/imagelab/'
 dataset_file = os.path.join(base_dir, 'datasets/hdf5/malaria.hdf5')
-plot_dir = os.path.join(base_dir, 'topics/Malaria/vgg16_feature_extraction/plot/train_process.jpg')
+plot_dir = os.path.join(base_dir, 'src/Malaria/vgg16_feature_extraction/plot/train_process.jpg')
 
 # opening up a dataset
 dataset = h5.File(dataset_file, 'r')

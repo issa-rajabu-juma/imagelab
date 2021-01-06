@@ -7,7 +7,7 @@ from preprocessing import preprocessor
 from hdf5_datasets.dataset import HDF5DatasetGenerator
 from keras.optimizers import Adam
 import json
-from topics.Cat_Dog.alexnet.alexnet import AlexNet
+from src.Cat_Dog.alexnet.alexnet import AlexNet
 import os
 from callbacks.trainingmonitor import TrainMonitor
 
