@@ -16,6 +16,20 @@ class ImageToArrayPreprocessor:
         return img_to_array(image, data_format=self.dataFormat)
 
 
+# resize without aspect ration
+class SimplePreprocessor:
+    # constructor
+    def __init__(self, width, height, inter=cv2.INTER_AREA):
+        # store the required parameters
+        self.width = width
+        self.height = height
+        self.inter = inter
+
+    # preprocess
+    def preprocess(self, image):
+        return cv2.resize(image, (self.width, self.height), interpolation=self.inter)
+
+
 # Aspect ratio aware preprocessor
 class AspectRatioAwarePreprocessor:
     # constructor
@@ -125,5 +139,5 @@ class CropPreprocessor:
             mirrors = [cv2.flip(c, 1) for c in crops]
             crops.extend(mirrors)
 
-        # retrun the set of crops
+        # return the set of crops
         return np.array(crops)
