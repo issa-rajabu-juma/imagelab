@@ -16,7 +16,7 @@ class HDF5DatasetWriter:
 
         # open hdf5 database and create two datasets
         self.h5_database = h5.File(outputFile, 'w')
-        self.data = self.h5_database.create_dataset(dataKey, dimensions, dtype='float')
+        self.data = self.h5_database.create_dataset(dataKey, dimensions, dtype='float32')
         self.labels = self.h5_database.create_dataset('Labels', (dimensions[0],), dtype='int')
 
         # initialize buffer and its size
@@ -85,8 +85,8 @@ class HDF5DatasetGenerator:
             # loop over the HDF5 dataset
             for i in np.arange(0, self.num_images, self.batch_size):
                 # extract the images and labels from the HDF5 dataset
-                images = self.dataset['Features'][i: i + self.batch_size]
-                labels = self.dataset['Labels'][i: i + self.batch_size]
+                images = self.dataset['Features'][i:i + self.batch_size]
+                labels = self.dataset['Labels'][i:i + self.batch_size]
 
                 # check if the labels should be binarized
                 if self.binarize:

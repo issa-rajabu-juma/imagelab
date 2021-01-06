@@ -25,8 +25,8 @@ aug = ImageDataGenerator(
 means = json.loads(open(config.DATASET_MEAN).read())
 
 # initialize the preprocessor
-sp = preprocessor.SimplePreprocessor(227, 227)
-pp = preprocessor.PatchPreprocessor(227, 227)
+sp = preprocessor.SimplePreprocessor(113, 113)
+pp = preprocessor.PatchPreprocessor(113, 113)
 mp = preprocessor.MeanPreprocessor(means['R'], means['G'], means['B'])
 iap = preprocessor.ImageToArrayPreprocessor()
 
@@ -37,7 +37,8 @@ valGen = HDF5DatasetGenerator(config.VAL_HDF5, batch_size=128, preprocessors=[sp
 # initialize the optimizer, model and then compile the model
 print('[INFO] compiling model')
 opt = Adam(lr=1e-3)
-model = AlexNet.build(width=227, height=227, depth=3, classes=2, reg=0.0002)
+model = AlexNet.build(width=113, height=113, depth=3, classes=2, reg=0.0002)
+model.summary()
 model.compile(optimizer=opt, loss='binary_crossentropy', metrics=['acc'])
 
 # construct the set of callbacks
@@ -47,7 +48,8 @@ callbacks = [TrainMonitor(figure_path=path)]
 # train the network
 model.fit_generator(trainGen.generator(),
                     steps_per_epoch=trainGen.num_images // 128,
-                    validation_data=valGen.generator(),validation_steps=valGen.num_images //128,
+                    validation_data=valGen.generator(),
+                    validation_steps=valGen.num_images // 128,
                     epochs=75,
                     max_queue_size=128 * 2,
                     callbacks=callbacks,
