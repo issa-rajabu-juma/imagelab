@@ -19,7 +19,7 @@ class AlexNet:
 
         # add layers to your model
         # Block #1: first CONV => RELU => POOL layer set
-        model.add(layers.Conv2D(96, (11, 11), strides=(4, 4), padding='same', input_shape=input_shape,
+        model.add(layers.Conv2D(96, (7, 7), strides=(4, 4), padding='same', input_shape=input_shape,
                                 kernel_regularizer=l2(reg)))
         model.add(layers.Activation('relu'))
         model.add(layers.BatchNormalization(axis=chan_dims))
@@ -48,13 +48,13 @@ class AlexNet:
 
         # Block #4: first set of FC => RELU layers
         model.add(layers.Flatten())
-        model.add(layers.Dense(4096, kernel_regularizer=l2(reg)))
+        model.add(layers.Dense(1024, kernel_regularizer=l2(reg)))
         model.add(layers.Activation('relu'))
         model.add(layers.BatchNormalization(axis=chan_dims))
         model.add(layers.Dropout(0.5))
 
         # Block #5: second set of FC => RELU layers
-        model.add(layers.Dense(4096, kernel_regularizer=l2(reg)))
+        model.add(layers.Dense(1024, kernel_regularizer=l2(reg)))
         model.add(layers.Activation('relu'))
         model.add(layers.BatchNormalization(axis=chan_dims))
         model.add(layers.Dropout(0.5))

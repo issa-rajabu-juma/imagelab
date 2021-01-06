@@ -47,7 +47,7 @@ class DataLoader:
             progress.update(i)
 
         # convert to array and resize the pixels
-        data = np.array(data).astype('float') / 255.0
+        data = np.array(data).astype('float32') / 255.0
         progress.finish()
 
         return data
