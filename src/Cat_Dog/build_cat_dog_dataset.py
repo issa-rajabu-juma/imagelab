@@ -42,7 +42,7 @@ datasets = [
 ]
 
 # initialize the preprocessor and the lists of RGB channel average
-preprocessor = AspectRatioAwarePreprocessor(128, 128)
+preprocessor = AspectRatioAwarePreprocessor(192, 192)
 (R, G, B) = ([], [], [])
 
 
@@ -51,7 +51,7 @@ widget = ['Building Dataset: ', progressbar.Percentage(), ' ', progressbar.Bar()
 for(dType, paths, labels, outputPath) in datasets:
     # create HDF5 writer
     print('[INFO] building {}...'.format(outputPath))
-    writer = HDF5DatasetWriter((len(paths), 128, 128, 3), outputPath)
+    writer = HDF5DatasetWriter((len(paths), 192, 192, 3), outputPath)
 
     # initialize the progress bar
     progress = progressbar.ProgressBar(maxval=len(paths), widgets=widget).start()
@@ -74,7 +74,8 @@ for(dType, paths, labels, outputPath) in datasets:
         writer.add([image], [label])
         progress.update(i)
 
-    # close the hdf5 writer
+    # store the class labels, then close the hdf5 writer
+    writer.storeClassLabels(label_names)
     progress.finish()
     writer.close()
 
