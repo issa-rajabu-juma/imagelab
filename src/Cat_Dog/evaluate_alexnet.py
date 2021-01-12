@@ -6,6 +6,7 @@ from utils import ranked
 # import build_cat_dog_dataset
 from sklearn.metrics import classification_report
 import json
+import progressbar
 import numpy as np
 
 # load the RGB means
@@ -43,3 +44,43 @@ print('[INFO] rank-1: {:.2f}%'.format(rank_1 * 100))
 
 
 test_generator.close()
+
+
+# reinitialize test generator while excluding simple preprocessor
+testGen = HDF5DatasetGenerator(config.TEST_HDF5, batch_size=50, preprocessors=[mean_preprocessor], classes=2)
+prediction_ = []
+
+# initialize progress bar
+widgets = ['Evaluating: ', progressbar.Percentage(), ' ', progressbar.Bar(), ' ', progressbar.ETA()]
+prog = progressbar.ProgressBar(maxval=testGen.num_images // 50, widgets=widgets).start()
+
+# loop over a single pass of the test data
+for (i, (images, labels)) in enumerate(testGen.generator(passes=1)):
+    # loop over each of the individual images
+    for image in images:
+        # apply the crop preprocessor to the image to generate 10 separate crops, then convert them from
+        # images to arrays
+        crops = crop_preprocessor.preprocess(image)
+        crops = np.array([i2a_preprocessor.preprocess(crop) for crop in crops], dtype='float32')
+
+        # make predictions on the crops and then average them together to obtain the final prediction
+        pred = model.predict(crops)
+        prediction_.append(pred.mean(axis=0))
+
+    # update the progress bar
+    prog.update(i)
+
+# finish the progress bar
+prog.finish()
+
+# classification report
+prediction__ = np.array(prediction_)
+report = classification_report(testGen.dataset['Labels'], prediction__.argmax(axis=1), target_names=testGen.dataset['Label Names'][:])
+print(report)
+
+# compute the rank-1 accuracy
+print('[INFO] predicting on test data(with crops)...')
+(rank_1, _) = ranked.rank5_accuracy(prediction_, testGen.dataset['Labels'][:])
+print('[INFO] rank-1: {:.2f}%'.format(rank_1 * 100))
+testGen.close()
+

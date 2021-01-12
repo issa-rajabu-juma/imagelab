@@ -124,7 +124,7 @@ class CropPreprocessor:
 
         # compute the center crop of the image
         dW = int(0.5 * (w - self.width))
-        dH = int(0.5, (h - self.height))
+        dH = int(0.5 * (h - self.height))
         coords.append([dW, dH, w - dW, h - dH])
 
         # loop over the coordinates, extract each of the crops and resize each of them to a fixed size
