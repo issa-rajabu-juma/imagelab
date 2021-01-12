@@ -4,6 +4,7 @@ from config import cat_dog_config as config
 from keras.optimizers import SGD
 import os
 from callbacks.trainingmonitor import TrainMonitor
+from keras.utils import to_categorical
 
 # load dataset
 dataset = h5.File(config.CAT_DOG_FEATURES, 'r')
@@ -15,6 +16,9 @@ model = FeedForwardNet.build(dataset['Features'], config.NUM_CLASSES)
 index = 0
 train_index = int(dataset['Features'].shape[0] * 0.5)
 val_index = int(dataset['Features'].shape[0] * 0.75)
+
+# convert labels to categorical
+labels = to_categorical(dataset['Labels'])
 
 # model compilation
 learning_rate = 0.001
@@ -28,13 +32,13 @@ callbacks = [TrainMonitor(figure_path=path)]
 # training
 print('[INFO] training')
 history = model.fit(dataset['Features'][index:index + train_index],
-                    dataset['Labels'][index:index + train_index],
-                    epochs=100,
+                    labels[index:index + train_index],
+                    epochs=20,
                     batch_size=50,
                     callbacks=callbacks,
                     validation_data=(
                         dataset['Features'][index + train_index:val_index],
-                        dataset['Labels'][index + train_index:val_index]
+                        labels[index + train_index:val_index]
                     ))
 
 # serialize a model
