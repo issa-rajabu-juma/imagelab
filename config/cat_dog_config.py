@@ -23,7 +23,7 @@ CAT_DOG_FEATURES = os.path.join(BASE_DIR, 'datasets/hdf5/CatDog/features.hdf5')
 
 # path to the output model file
 MODEL_PATH = os.path.join(BASE_DIR, 'src/Cat_Dog/serialized/model/alexnet_cat_dog.model')
-FFN_MODEL_PATH = os.path.join(BASE_DIR, 'src/Cat_Dog/serialized/ffn_feature_extraction.model')
+FFN_MODEL_PATH = os.path.join(BASE_DIR, 'src/Cat_Dog/serialized/model/ffn_feature_extraction.model')
 
 # path to the dataset mean
 DATASET_MEAN = os.path.join(BASE_DIR, 'src/Cat_Dog/serialized/json/cat_dog_mean.json')
