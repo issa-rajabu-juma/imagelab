@@ -1,4 +1,4 @@
-from src.Cat_Dog.feedforwardnet.feedforwardnet import FeedForwardNet
+from src.Cat_Dog.networks.feedforwardnet import FeedForwardNet
 import h5py as h5
 from config import cat_dog_config as config
 from keras.optimizers import SGD
