@@ -41,12 +41,12 @@ class TrainMonitor(BaseLogger):
         # check to see if the training history should be serialized to file
         if self.json_path is not None:
             f = open(self.json_path, 'w')
-            f.write(json.dumps(self.H))
+            f.write(json.dumps(str(self.H)))
             f.close()
 
-        # construct the plot but ensure at least two epochs have passed before plotting
+        # construct the plots but ensure at least two epochs have passed before plotting
         if len(self.H['acc']) > 1:
-            # plot the loss and accuracy
+            # plots the loss and accuracy
             N = np.arange(0, len(self.H['acc']))
             plt.style.use('ggplot')
             plt.figure()

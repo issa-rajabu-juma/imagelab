@@ -32,4 +32,4 @@ DATASET_MEAN = os.path.join(BASE_DIR, 'src/Cat_Dog/serialized/json/cat_dog_mean.
 OUTPUT_PATH = os.path.join(BASE_DIR, 'src/Cat_Dog/serialized/others/')
 
 # plots
-PLOT_PATH = os.path.join(BASE_DIR, 'src/Cat_Dog/serialized/plot/')
+PLOT_PATH = os.path.join(BASE_DIR, 'src/Cat_Dog/serialized/plots/')
