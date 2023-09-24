@@ -1,8 +1,55 @@
+import sys
+
 from sklearn.utils import shuffle
 from imutils import paths
 import progressbar
 import numpy as np
 import cv2
+import csv
+
+
+# CGIAR
+def cgiar_paths_labels(images_dir, metadata):
+    path_list = list(paths.list_images(images_dir))
+    lim = 0
+    filenames = []
+    stages = []
+    damages = []
+    extents = []
+    seasons = []
+    images_path = []
+    labels = []
+
+    with open(metadata, 'r') as file:
+        reader = csv.reader(file)
+
+        for i, row in enumerate(reader):
+            if i == 0:
+                continue
+
+            filenames.append(row[0])
+            stages.append(row[1])
+            damages.append(row[2])
+            extents.append(row[3])
+            seasons.append(row[4])
+
+    for i, path in enumerate(path_list):
+        pfname = path.split("\\")[-1]
+
+        for j, (fname, damage) in enumerate(zip(filenames, damages)):
+            if pfname == fname:
+                images_path.append(path)
+                labels.append(damage)
+
+    # sys.exit()
+    #
+    # # convert labels into a numpy array
+    # labels = np.array(labels)
+
+    return images_path, labels
+
+
+
 
 
 # collect image path and extract labels
